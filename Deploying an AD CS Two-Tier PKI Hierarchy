@@ -25,10 +25,10 @@ LoadDefaultTemplates=0
 AlternateSignatureAlgorithm=1
 
 
-# Now start installing your certificate authority
+# Now start installing your Root Certificate Authority
 
 Add-WindowsFeature Adcs-Cert-Authority -IncludeManagementTools
-Install-AdcsCertificationAuthority –CAType StandaloneRootCA –CACommonName "RonnyVdB Trusted Root" –KeyLength 4096 –HashAlgorithm SHA512 –CryptoProviderName "RSA#Microsoft Software Key Storage Provider"
+Install-AdcsCertificationAuthority –CAType StandaloneRootCA –CACommonName "RonnyVdB Trusted Root CA" –KeyLength 4096 –HashAlgorithm SHA512 –CryptoProviderName "RSA#Microsoft Software Key Storage Provider"
 
 
 # Now configure our AIA and CDP url's and additional expiry information
@@ -66,8 +66,56 @@ certutil –addstore –f root ContosoRootCA.crl
 # Don't forget to create dns records and check if the CDP and AIA urls are reacheable.
 
 
+# Now set up the Enterprise Subordinate CA
+
+# Dump the below code in an ansi formatted text file under c:\Windows\CAPolicy.inf
+# Make sure to edit the details to your needs
+
+[Version]
+Signature="$Windows NT$"
+[PolicyStatementExtension]
+Policies=InternalPolicy
+[InternalPolicy]
+OID= 1.2.3.4.1455.67.89.5
+Notice="Legal Policy Statement"
+URL=http://cheetah.home.ronnyvdb.net:8080/pki/RonnyVdB_Trusted_Root_CPS.pdf
+[Certsrv_Server]
+RenewalKeyLength=4096
+RenewalValidityPeriod=Years
+RenewalValidityPeriodUnits=5
+LoadDefaultTemplates=0
+AlternateSignatureAlgorithm=1
+
+# Now start installing your Enterprise Subordinate Certificate Authority
+
+Add-WindowsFeature Adcs-Cert-Authority -IncludeManagementTools
+Install-AdcsCertificationAuthority –CAType EnterpriseSubordinateCA –CACommonName "RonnyVdB Enterprise Subordinate CA" –KeyLength 4096 –HashAlgorithm SHA512 –CryptoProviderName "RSA#Microsoft Software Key Storage Provider"
+
+# Check the output of your powershell console, it will state that a certificate request file has been written to the C: drive.
+# Copy to the certificate request file to removable media and copy it to the Root Certiticate Authority
+# Submit your request, and select your Root Certificate Authority when presented
+
+certreq -submit c:\myrequestfile.req
+
+# After submitting, approve the request with:
+
+Certutil resubmit <RequestId>
+
+# Now retrieve your certificate from the Root CA, accept the pop up and select the correct Root CA (wondering how many you would have on one server)
+
+certreq –retrieve <RequestId> C:\mycertificate.crt. 
+
+# Copy your retrieved certificate onto removable media and copy it onto your Enterprise Subordinate CA
+# Now install the certificate onto your Subordinate CA
 
 
 
 
 
+
+
+
+
+
+
+http://serverfault.com/questions/732655/removing-ldap-from-cdp-aia-in-a-microsoft-pki
