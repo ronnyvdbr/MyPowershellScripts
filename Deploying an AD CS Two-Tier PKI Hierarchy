@@ -1,0 +1,73 @@
+# Deploying an AD CS Two-Tier PKI Hierarchy, the powershell way
+# This information was distilled from the microsoft article at https://technet.microsoft.com/en-us/library/hh831348.aspx
+
+# Before starting off, let's first create a CAPolicy.inf file with info that our installation will use to set up the Root CA
+# Dump the below code in an ansi formatted text file under c:\Windows\CAPolicy.inf
+# Make sure to edit the details to your needs
+
+[Version]
+Signature="$Windows NT$"
+[PolicyStatementExtension]
+Policies=InternalPolicy
+[InternalPolicy]
+OID= 1.2.3.4.1455.67.89.5
+Notice="Legal Policy Statement"
+URL=http://cheetah.home.ronnyvdb.net:8080/pki/RonnyVdB_Trusted_Root_CPS.pdf
+[Certsrv_Server]
+RenewalKeyLength=4096
+RenewalValidityPeriod=Years
+RenewalValidityPeriodUnits=10
+CRLPeriod=Years
+CRLPeriodUnits=1
+CRLDeltaPeriod=Days
+CRLDeltaPeriodUnits=0
+LoadDefaultTemplates=0
+AlternateSignatureAlgorithm=1
+
+
+# Now start installing your certificate authority
+
+Add-WindowsFeature Adcs-Cert-Authority -IncludeManagementTools
+Install-AdcsCertificationAuthority –CAType StandaloneRootCA –CACommonName "RonnyVdB Trusted Root" –KeyLength 4096 –HashAlgorithm SHA512 –CryptoProviderName "RSA#Microsoft Software Key Storage Provider"
+
+
+# Now configure our AIA and CDP url's and additional expiry information
+
+# Remove the current CAAuthorityInformationAccess locations
+$aialist = Get-CAAuthorityInformationAccess; foreach ($aia in $aialist) {Remove-CAAuthorityInformationAccess $aia.uri -Force};
+# Add an url to CAAuthorityInformationAccess
+Add-CAAuthorityInformationAccess –AddToCertificateAia -uri http://cheetah.home.ronnyvdb.net:8080/pki
+
+# Remove the current CrlDistributionPoint information locations
+$crllist = Get-CACrlDistributionPoint; foreach ($crl in $crllist) {Remove-CACrlDistributionPoint $crl.uri -Force};
+# Add an url to CrlDistributionPoint
+Add-CACRLDistributionPoint -Uri C:\Windows\System32\CertSrv\CertEnroll\%3%8.crl -PublishToServer -Force
+# Add an url to CrlDistributionPoint
+Add-CACRLDistributionPoint -Uri http://cheetah.home.ronnyvdb.net:8080/pki/%3%8.crl -AddToCertificateCDP -Force
+
+# Set grace time for replacing your revocation lists, this is the time u have to create a new revocation list and transfer it to an accessible location
+Certutil -setreg CA\CRLOverlapPeriodUnits 24
+Certutil -setreg CA\CRLOverlapPeriod "Hours"
+# Set how long issues certificates will be valid
+Certutil -setreg CA\ValidityPeriodUnits 5
+Certutil -setreg CA\ValidityPeriod "Years"
+restart-service certsvc
+certutil -crl
+
+# Copy the root CA certificate and CRL to removable media (usb stick) and paste them in the CDP and / or AIA location
+# Now log in to your domain server that will become your subordinate certificate authority and insert your removable media
+
+# Publish the "ROOTCA_RonnyVdB Trusted Root.crt" certificate into the configuration container of AD, this will make all machines on the domain trust this certificate without need for group policy distribution.
+certutil –dspublish –f "ROOTCA_RonnyVdB Trusted Root.crt" RootCA
+# Add the "ROOTCA_RonnyVdB Trusted Root.crt" certificate to the local certificate store, normally this happens at next group policy update, but this speeds up the process
+certutil –addstore –f root orca1_ContosoRootCA.crt
+certutil –addstore –f root ContosoRootCA.crl
+
+# Don't forget to create dns records and check if the CDP and AIA urls are reacheable.
+
+
+
+
+
+
+
