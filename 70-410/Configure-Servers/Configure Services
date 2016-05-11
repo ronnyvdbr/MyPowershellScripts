@@ -1,0 +1,14 @@
+# for managing services 
+
+sc
+sc query
+sc stop servicename
+sc query servicename
+sc start servicename
+
+
+# in powershell
+get-service
+get-service servicename | stop service
+get-service servicename
+get-service servicename | start service
