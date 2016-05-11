@@ -1,0 +1,11 @@
+Configure nic teaming on server core
+
+Get-NetAdapter
+Get-NetAdapter | fl *
+Get-NetAdapter ethernet0 | SetNetIPInterface -dhcp disabled
+Get-NetAdapter ethernet0 | new-netipaddress -IPAddress x.x.x.x -DefaultGateway x.x.x.x -PrefixLength 24
+Set-DnsClientServerAddress -InterfaceAlias ethernet0 -ServerAddress x.x.x.x
+New-NetLbfoTeam -name "team adapter" -TeamMembers ethernet0,ethernet1 -TeamingMode switchindependent -LoadBalancingAlgorithm dynamic
+help lbfo
+
+
