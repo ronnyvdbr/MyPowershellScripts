@@ -1,5 +1,8 @@
 Configure nic teaming on server core
 
+Set-WinDefaultInputMethodOverride "0813:00000813"
+Set-WinUserLanguageList -LanguageList NL-BE
+
 Get-NetAdapter
 Get-NetAdapter | fl *
 Get-NetAdapter ethernet0 | SetNetIPInterface -dhcp disabled
@@ -7,5 +10,11 @@ Get-NetAdapter ethernet0 | new-netipaddress -IPAddress x.x.x.x -DefaultGateway x
 Set-DnsClientServerAddress -InterfaceAlias ethernet0 -ServerAddress x.x.x.x
 New-NetLbfoTeam -name "team adapter" -TeamMembers ethernet0,ethernet1 -TeamingMode switchindependent -LoadBalancingAlgorithm dynamic
 help lbfo
+ipconfig
+Get-NetAdapter "team adapter" | Set-NetIPInterface - dhcp disabled
+Get-NetAdapter "team adapter" | New-NetIPAddress - IPAddress x.x.x.x -DefaultGateway 192.168.0.1 -PrefixLength 24
+Set-DnsClientServerAddress -InterfaceAlias "team adapter" -ServerAddress x.x.x.x
+ipconfig
+
 
 
