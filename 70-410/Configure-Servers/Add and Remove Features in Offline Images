@@ -1,0 +1,16 @@
+# list all installable features in an image
+dism /image:c:\mount /get-features
+
+# when enabling features, these will be deployed when deploying from this image
+
+# enable dhcp in an image
+
+# first get info about the feature
+dism /image:c:\mount /get-featureinfo /featurename:dhcpserver
+
+# enable the feature in the image
+dism /image:c:\mount /enable-feature /featurename:dhcpserver
+
+# commit these changes to the image
+dism /unmount-image /commit
+
