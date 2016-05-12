@@ -1,0 +1,34 @@
+get-help *-net
+
+# show all ip addresses
+Get-NetIPAddress
+
+get-help Get-NetIPAddress -detailed
+
+
+Get-NetIPAddress -AddressFamily IPV4
+
+Get-NetIPAddress -AddressFamily IPV4 | select-object -property *
+
+Get-NetIPInterface
+
+Get-NetIPv4Protocol
+
+Get-NetIPConfiguration
+
+Get-NetIPConfiguration -ComputerName servercore
+
+Get-NetRoute
+
+get-help *-NetIPAddress
+
+# Windows native commands for IP manipulation
+netsh interface ipv4 show interface
+netsh interface ipv4 add address "ehternet0" x.x.x.x 255.255.255.0
+ 
+# Powershell equivalents for IP manipulation
+Get-NetIPInterface
+Get-NetIPInterface -InterfaceIndex 12 
+Get-NetIPInterface -InterfaceIndex 12 -AddressFamily IPV4 | New-NetIPAddress -IPAddress x.x.x.x. -PrefixLength 24
+
+
