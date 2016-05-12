@@ -1,0 +1,24 @@
+net use x: \\file1\it
+cd isos
+cd unpacked
+cd en_windows_server_2012_R2
+cd sources
+install.wim
+
+
+mkdir c:\mount
+
+# list all the information in the wim file
+# below command will give us several windows editions contained in the wim file
+dism /get-wiminfo /wimfile:x:\isos\unpacked\en_windows_server_2012_R2\sources\install.wim
+
+# mount the correct windows edition in the windows file to c:\mount
+disk /mount-wim /wimfile:x:\isos\unpacked\en_windows_server_2012_R2\sources\install.wim /index:2 /mountdir:c:\mount /readonly
+
+# in c:\mount\windows\sxs we now can see the side by side cache (installation files for programs and features
+install-windowsfeature server-gui-shell -source c:\mount\windows\winsxs
+
+
+# to convert a server to server core
+Remove-Windowsfeature server-gui-shell,server-gui-mgmt-infra
+
