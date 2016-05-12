@@ -1,0 +1,16 @@
+# example configuration for desired installation state
+
+Configuration Server1
+{
+  node "server1" {
+    WindowsFeature DNSServer {
+      Ensure = "Present"
+      Name = "DNS"
+    }
+  }
+}
+
+
+# set server to desired state according config file above
+Start-DscConfiguration -wait -verbose -path .\server1
+Test-DscConfiguration
