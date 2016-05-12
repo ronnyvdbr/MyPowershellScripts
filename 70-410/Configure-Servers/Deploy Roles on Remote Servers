@@ -1,0 +1,5 @@
+Install-Windowsfeature <whatever> -ComputerName <computername>
+
+# server manager remoting is enabled by default but it can be manipulated with below
+configure-smremoting
+
