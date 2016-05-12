@@ -1,0 +1,8 @@
+# native command
+ping x.x.x.x
+
+# powershell command
+test-connection -Computername x.x.x.x
+
+# will output true or false
+test-connection -Computername x.x.x.x. -Quit -Count 1
