@@ -1,0 +1,16 @@
+# to enable remote management
+
+Set-DisplayResolution 1024x768
+timedate.cpl
+Rename-Computer
+Add-Computer # add to active directory
+slmgr.vbs -ipk <product key> & slmgr.vbs -ato # add product key and thereafter activate it
+sconfig.cmd # menu driven cli interface
+cscript scregedit.wsf
+Install-WindowsFeature | Uninstall-WindowsFeature
+Enable-PSRemoting # enable remote powershell
+
+# to configure server with static ip address, dns, rename it, and add it to the domain
+netsh interface ip set address ethernet0 static <ipaddress> <subnetmask> <gatewayaddress> 1; netsh interface ipv4 add dnsserver ethernet0 address=<dnsaddress> index=1; Rename-Computer -NewName <computername> -Force;sleep 5;Add-Computer -domainname <domainname> -credential <domainname>\<username> -force -options JoinWithNewName,AccountCreate -restart
+
+
