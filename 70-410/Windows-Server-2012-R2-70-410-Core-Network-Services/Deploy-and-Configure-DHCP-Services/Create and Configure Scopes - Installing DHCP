@@ -1,0 +1,13 @@
+dism /online /enable-feature /featurename:DHCPServer
+
+get-windowsfeature *DHCP*
+install-windowsfeature DHCPServer
+
+
+get-service -name *dhcp*
+
+get-help *dhcp*
+
+add-DhcpServerV4Scope -Name myscope -StartRange x.x.x.x -EndRange x.x.x.x -subnetmask x.x.x.x
+
+
