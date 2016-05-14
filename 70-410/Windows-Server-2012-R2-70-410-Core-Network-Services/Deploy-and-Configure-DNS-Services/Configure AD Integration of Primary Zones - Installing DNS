@@ -1,0 +1,8 @@
+dism /online /enable-feature:DNS-Server-Full-Role
+Get-WindowsFeature *dns*
+
+Install-Windowsfeature DNS -IncludeManagementTools
+get-help *-dns*
+
+dnsmgmt
+
