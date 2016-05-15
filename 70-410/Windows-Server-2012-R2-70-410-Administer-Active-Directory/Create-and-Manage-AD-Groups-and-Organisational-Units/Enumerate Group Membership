@@ -1,0 +1,5 @@
+Get-ADGroupMember "Domain Admins" | ft name
+
+Get-ADPrimcipalGroupMembership jason | ft name
+
+Get-ADUser -Filter 'memberof -recursivematch "cn=domain admins,cn=users,dc=company,dc=pri"' | ft name
