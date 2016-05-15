@@ -1,0 +1,5 @@
+# to demote the domain controller
+help Uninstall-ADDSDomainController
+
+# to remove the feature
+Remove-WindowsFeature ADDSDomainController ?
