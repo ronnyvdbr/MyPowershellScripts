@@ -1,1 +1,23 @@
-tds
+# test if all dns resolving is working
+nslookup dc
+nslookup dc.company.pri
+# check primary dns suffix if second command fails
+
+Install-WindowsFeature -name ad-domain-services -IncludeManagementTools
+
+# install domain controller via powershell
+Import-Module ADDSDeployment
+Install-ADDSForest `
+-CreateDnsDelegation:$true `
+-DatabasePath "C:\Windows\NTDS" `
+-DnsDelegationCredential (Get-Credential) `
+-DomainMode "Win2012R2" `
+-DomainName "mydomain.net" `
+-DomainNetbiosName "mydomain" `
+-ForestMode "Win2012R2" `
+-InstallDns:$true `
+-LogPath "C:\Windows\NTDS" `
+-NoRebootOnCompletion:$false `
+-SysvolPath "C:\Windows\SYSVOL" `
+-Force:$true
+
