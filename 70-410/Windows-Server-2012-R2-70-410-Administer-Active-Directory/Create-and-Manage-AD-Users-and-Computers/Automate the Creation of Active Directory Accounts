@@ -1,0 +1,10 @@
+Get-ADComputer
+New-ADComputer | Remove-ADComputer
+Add-Computer | Remove-Computer
+
+
+Get-ADUser
+New-ADUser | Remove-ADUser
+
+help New-ADUser
+
