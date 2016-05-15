@@ -1,0 +1,10 @@
+# Troubleshooting tools
+
+ipconfig -registerdns # will register srv records on domain controllers
+
+
+
+c:\windows\system32\config
+netlogon.dns # contains a list of all required dns records for that domain controller
+# this list can be used to cross ref what is needed agains the dns server
+
