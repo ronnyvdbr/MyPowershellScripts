@@ -1,0 +1,10 @@
+# create ifm media
+ntdsutil
+activate instance ntds
+ifm
+?
+create full c:\users\ronny\desktop\ifm
+
+# Copy the ifm folder to removable media
+# use this media on the promotion machine to do ifm
+
