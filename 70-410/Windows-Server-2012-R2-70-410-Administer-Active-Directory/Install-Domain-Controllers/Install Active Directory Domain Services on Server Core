@@ -1,0 +1,2 @@
+Install-WindowsFeature -Name ad-domain-services
+Install-ADDSDomainController -DomainName company.pri -credential (get-credential company\administrator)
