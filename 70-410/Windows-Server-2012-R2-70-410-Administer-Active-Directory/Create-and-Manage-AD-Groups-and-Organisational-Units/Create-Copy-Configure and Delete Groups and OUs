@@ -1,0 +1,13 @@
+Get-ADGroup
+New-ADGroup | Remove-ADGroup
+Add-ADGroupMember
+Remove-ADGroupmember
+
+
+Get-ADOrganisationalUnit
+New-ADOrganisationalUnit
+Remove-ADOrganisationalUnit
+
+New-ADOrganisationalUnit "Company Users"
+New-ADGroup "Extremely Untrusted Users" -GroupScope global -Path "ou=Company Users,dc=company,dc=pri"
+Add-ADGroupMember "Extremely Untrusted Users" jason,djones
