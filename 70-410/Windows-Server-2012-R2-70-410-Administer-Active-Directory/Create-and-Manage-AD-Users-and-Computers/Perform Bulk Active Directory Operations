@@ -1,0 +1,10 @@
+csvde
+csvde -f output.csv
+csvde -f output2.csv -d "cn=users,dc=company,dc=pri -r "(objectclass=user)"
+csvde -i -f output2.csv
+ldifde # output format is different, no csv but ldif format
+
+# create users from csv
+help new-aduser
+# top line of csv needs to be column names
+import-csv newusers.csv | new-aduser
