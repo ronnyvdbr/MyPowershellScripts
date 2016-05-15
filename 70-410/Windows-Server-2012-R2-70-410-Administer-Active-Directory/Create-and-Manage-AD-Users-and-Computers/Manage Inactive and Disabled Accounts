@@ -1,0 +1,20 @@
+get-aduser -filter * -properties lastlogondate | ft name,lastlogondate
+
+get-aduser -filter * -properties lastlogondate,passwordlastset | ft name,lastlogondate
+
+
+get-aduser -filter {enabled -ne $true}
+
+search-adaccount
+
+search-adaccount -accountdisabled
+search-adaccount -accountdisabled -usersonly | fl name
+
+search-adaccount -accountinactive -timespan 30.00:0:00 | fl name
+
+search-adaccount -passwordexpired
+
+search-adaccount -passwordneverexpired
+
+search-adaccount -lockedout
+
