@@ -1,0 +1,8 @@
+djoin ?
+
+djoin /provision /domain mycomp.pri /machine server1 /savefile server1.txt
+
+copy file to offline computer
+
+
+djoin /requestodj /loadfile server1.txt /windowspath %systemroot% /localos
