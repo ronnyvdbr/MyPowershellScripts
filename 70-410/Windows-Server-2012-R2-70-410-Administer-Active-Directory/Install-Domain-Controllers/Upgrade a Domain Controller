@@ -1,0 +1,15 @@
+# Get Healthy
+# Extend the Schema
+
+# from install media
+d:\support\adprep\adprep.exe -> extend the schema, import the ldf files
+
+adprep ?
+
+/forestprep # once per forest
+/domainprep # for each domain
+/rodcprep # if planning to deploy rodc's
+
+upgrade dc's to new os
+relocate fsmo roles if necessary
+Raise Domain/Forest Functional Level
