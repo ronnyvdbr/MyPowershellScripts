@@ -1,0 +1,14 @@
+get-help *-smb*
+get-smbshare
+get-smbshareaccess -name it
+get-childitem -path c:\it -recurse
+new-smbshare -path c:\marketing -name marketing -readaccess everyone -fullaccess administrator
+get-smbshare
+get-smbshareaccess -name myshare
+get-smbshare -cimsession file1
+new-smbshare -cimsession -path c:\testshare -name test -readaccess everyone -fullaccess administrator
+get-smbshare -cimsession file1
+
+New-SmbMapping -localpath g: -remotepath \\file1\marketing
+Remove-Smbmapping
+
