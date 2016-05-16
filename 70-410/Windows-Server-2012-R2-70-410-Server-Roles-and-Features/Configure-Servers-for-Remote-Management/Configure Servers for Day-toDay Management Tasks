@@ -1,0 +1,5 @@
+# install rsat tools -> google rsat + windows version
+# turn on windows feature remote server administration tools
+
+get-service -name bits -computername dc
+powershell -command "& {start-service -name bits}"
