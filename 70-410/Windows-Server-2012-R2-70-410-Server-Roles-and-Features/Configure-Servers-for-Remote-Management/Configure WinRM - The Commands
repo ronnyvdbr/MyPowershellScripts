@@ -1,0 +1,15 @@
+winrm -?
+winrm get
+winrm get winrm/config
+winrm quickconfig # native command
+enable-psremoting # powershell equivalent
+y
+y
+winrs # runs remote commands
+winrs -r:MyDesktop ipconfig /all
+
+enter-pssession -computername mydesktop
+invoke-command -computername MyDesktop {get-service -name bits}
+
+get-help about-remote-troubleshooting
+
