@@ -1,0 +1,6 @@
+winrm get winrm/config
+powershell
+enable-psremoting
+sconfig # 4 configure remote management
+
+
