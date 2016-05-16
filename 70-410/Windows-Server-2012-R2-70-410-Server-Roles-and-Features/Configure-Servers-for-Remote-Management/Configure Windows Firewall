@@ -1,0 +1,8 @@
+netsh ?
+netsh advfirewall firewall set rule group="Remote Administration" new enable=yes
+get-help *firewall*
+
+Get-NetFirewall Rule | Select-Object -property name, displayname | where {$_.displayname -like "*remote*"}
+Get-NetFirewallRule -name WinRM-HTTP-IN-TCP
+Get-NetFirewallRule -name WinRM-HTTP-IN-TCP | Set-NetFirewallRule -Enabled:true
+
