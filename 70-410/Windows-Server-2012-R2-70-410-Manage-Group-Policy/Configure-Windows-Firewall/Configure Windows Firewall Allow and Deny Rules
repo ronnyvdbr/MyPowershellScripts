@@ -1,0 +1,5 @@
+netsh advfirewall firewall /?
+
+help firewall
+
+new-netfirewallrule
