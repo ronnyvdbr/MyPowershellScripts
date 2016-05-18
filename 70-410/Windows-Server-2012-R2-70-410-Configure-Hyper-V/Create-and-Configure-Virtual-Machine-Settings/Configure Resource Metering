@@ -1,0 +1,17 @@
+get-vm -name server1 | format-list 
+
+get-vm -name server1 | format-list -property *
+
+Parameter resourcemetering
+
+get-vm | select-object -property ResourceMeteringEnabled
+get-vm | select-object -property name,ResourceMeteringEnabled
+
+get-vm -name server1 | enable-vmresourcemetering
+get-help *-vmresource*
+get-help measure-vm*
+
+get-vm -name server1 | measure-vm
+get-vm -name server1 | measure-vm | fl *
+get-vm -name server1 | disable-vmresourcemetering
+
