@@ -1,0 +1,5 @@
+get-help *-vm*
+
+get-command -module Hyper-V | format-table -autosize 
+
+get-command -module Hyper-V | format-table -autosize | measure
