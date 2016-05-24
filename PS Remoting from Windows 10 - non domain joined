@@ -1,0 +1,8 @@
+# for starters, enable the winrm service
+Set-Service -name winrm -StartupType Automatic
+Start-Service winrm
+
+# add * to WSMAN trusted hosts list
+Get-Item WSMAN:\Localhost\Client\TrustedHosts # check what is already there
+Set-Item WSMAN:\Localhost\Client\TrustedHosts -Value * -Force # add * to the list, it means every host
+
