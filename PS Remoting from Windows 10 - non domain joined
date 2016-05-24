@@ -1,4 +1,5 @@
-# for starters, enable the winrm service
+# for starters, enable the winrm service on your windows 10 workstation
+# open an elevated powershell window
 Set-Service -name winrm -StartupType Automatic
 Start-Service winrm
 
