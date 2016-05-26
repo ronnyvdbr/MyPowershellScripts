@@ -1,19 +1,39 @@
-# Set time zone information
+$ServerName = "hyper-v"
+$KeyboardLayout = "nl-BE"
+$IPAddress = "192.168.20.1"
+$IPAddressPrefix = "24"
+$DefaultGateway = "192.168.20.1"
+$DnsServers = "192.168.20.51,192.168.20.52"
+$DomainJoinName = "training"
+$DomainJoinUsername = "administrator"
+$DomainJoinPassword = "Dolbydigital@1"
+
+<# create credential object for domain join #>
+$secpasswd = ConvertTo-SecureString $DomainJoinPassword -AsPlainText -Force
+$mycreds = New-Object System.Management.Automation.PSCredential ($DomainJoinUsername, $secpasswd)
+
+
+
+<# Set my preferred keyboard layout #>
+Set-WinUserLanguageList -LanguageList $KeyboardLayout -force
+
+<# Set time zone information #>
 timedate.cpl
 
 # Rename the server
-Rename-Computer -NewName myserver
+Rename-Computer -NewName $ServerName
 
 # Configure networking
 # Disable DHCP
 Get-NetIPInterface -InterfaceAlias Ethernet0 -AddressFamily IPv4 -Dhcp Disabled
 # Set an IP address
-New-NetIPAddress -InterfaceAlias Ethernet0 -IPAddress x.x.x.x -PrefixLength 24 -DefaultGateway x.x.x.x
-Set-DnsClientServerAddress -InterfaceAlias Ethernet0 -ServerAddresses x.x.x.x,x.x.x.x
+New-NetIPAddress -InterfaceAlias Ethernet0 -IPAddress $IPAddress -PrefixLength $IPAddressPrefix -DefaultGateway $DefaultGateway
+Set-DnsClientServerAddress -InterfaceAlias Ethernet0 -ServerAddresses $DnsServers
 
 
 # Add the server to active directory
-Add-Computer 
+add-computer -Credential $mycreds -domainname $DomainJoinName
+
 slmgr.vbs -ipk <product key> & slmgr.vbs -ato # add product key and thereafter activate it
 sconfig.cmd # menu driven cli interface
 cscript scregedit.wsf
