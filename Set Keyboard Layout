@@ -43,7 +43,6 @@ function Set-WinLogonLanguageList
  
    Sets the keyboard layouts of the current user to be available on the logon screen without asking for confirmation.
    #>
- 
    param(
       [Parameter(
          Mandatory=$true,
