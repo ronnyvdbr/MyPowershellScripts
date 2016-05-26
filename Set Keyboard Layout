@@ -12,6 +12,7 @@ or
 <########################################################################################
 ### Now paste in below function
 #########################################################################################>
+
 function Set-WinLogonLanguageList
 {
    [CmdletBinding(ConfirmImpact='High',SupportsShouldProcess=$true)]
