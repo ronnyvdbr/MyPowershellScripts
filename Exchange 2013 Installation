@@ -6,15 +6,19 @@
 Install-WindowsFeature AS-HTTP-Activation, Desktop-Experience, NET-Framework-45-Features, RPC-over-HTTP-proxy, RSAT-Clustering, RSAT-Clustering-CmdInterface, Web-Mgmt-Console, WAS-Process-Model, Web-Asp-Net45, Web-Basic-Auth, Web-Client-Auth, Web-Digest-Auth, Web-Dir-Browsing, Web-Dyn-Compression, Web-Http-Errors, Web-Http-Logging, Web-Http-Redirect, Web-Http-Tracing, Web-ISAPI-Ext, Web-ISAPI-Filter, Web-Lgcy-Mgmt-Console, Web-Metabase, Web-Mgmt-Console, Web-Mgmt-Service, Web-Net-Ext45, Web-Request-Monitor, Web-Server, Web-Stat-Compression, Web-Static-Content, Web-Windows-Auth, Web-WMI, Windows-Identity-Foundation
 
 # download and install the following components in order
+cd $home\Downloads
 
 # Unified Communications Managed API 4.0 Runtime
-http://www.microsoft.com/en-us/download/details.aspx?id=34992
+Start-BitsTransfer -source http://www.microsoft.com/en-us/download/details.aspx?id=34992 -destination $home\Downloads\UcmaRuntimeSetup.exe
+$home\Downloads\UcmaRuntimeSetup.exe
 
 # Microsoft Office 2010 Filter Pack 64 bit
-http://go.microsoft.com/fwlink/p/?linkID=191548
+Start-BitsTransfer -source http://go.microsoft.com/fwlink/p/?linkID=191548 -destination $home\Downloads\FilterPack64bit.exe
+$home\Downloads\FilterPack64bit.exe
 
 # Microsoft Office 2010 Filter Pack SP1 64 bit
-http://go.microsoft.com/fwlink/p/?LinkId=254043
+Start-BitsTransfer -source http://go.microsoft.com/fwlink/p/?LinkId=254043 -destination $home\Downloads\filterpack2010sp1-kb2460041-x64-fullfile-en-us.exe
+$home\Downloads\filterpack2010sp1-kb2460041-x64-fullfile-en-us.exe
 
 # if this is your first exchange install, first need to prepare Active Directory Schema
 setup /PrepareSchema /IAcceptExchangeServerLicenseTerms
